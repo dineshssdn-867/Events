@@ -16,10 +16,16 @@
 				<p> <img src="{{club.club_banner.url}}" alt="{{club.club_name}}" class="img-fluid"> </p>
 				<h2 class="mb-3">{{club.club_name}}</h2>
 				<p>{{club.moto.html|safe}}</p>
-				<div class="row mt-2"> {% if club.social_insta %}
-					<div><a href="{{club.social_insta}}"><i class="fab fa-2x fa-instagram"></i></a></div> {% endif %} {% if club.social_face %}
-					<div><a href="{{club.social_face}}"><i class="fab fa-2x fa-facebook"></i></a></div> {% endif %} {% if club.social_twitter %}
-					<div><a href="{{club.social_twitter}}"><i class="fab fa-2x fa-twitter"></a></div> {% endif %}
+				<div class="row mt-2"> 
+					{% if club.social_insta %}
+					<div><a href="{{club.social_insta}}"><i class="fab fa-2x fa-instagram mr-2"></i></a></div> 
+					{% endif %} 
+					{% if club.social_face %}
+					<div><a href="{{club.social_face}}"><i class="fab fa-2x fa-facebook mr-2"></i></a></div> 
+					{% endif %} 
+					{% if club.social_twitter %}
+					<div><a href="{{club.social_twitter}}"><i class="fab fa-2x fa-twitter mr-2"></i></a></div> 
+					{% endif %}
                 </div>
                 <div class="row mt-3"> {% if request.user == club.user %} <a href="{% url 'clubs:update_club' pk=club.id %}" class="btn btn-primary mr-2">Update Club Details</a> {% endif %}
 						{% if user.is_authenticated %}
