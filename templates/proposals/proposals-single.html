@@ -19,12 +19,14 @@
     <div class="row">
       <div class="col-lg-8 ftco-animate">
        <p>
-        <img src="{{event.event_banner.url}}" alt="" class="img-fluid">
+        <img src="{{event.event_banner.url}}" alt="" class="img-fluid"> 
       </p>
       <h2 class="mb-3">{{event.event_title}} Description</h2>
       <p>{{event.description.html|safe}}</p>
       <h2 class="mb-3">{{event.event_title}} Proposal</h2>
       <p>{{event.proposal.html|safe}}</p>
+      <h2 class="mb-3">{{event.event_title}} extra documents</h2>
+      <p>Please read more about the event in the documents.Please click <a href="{{event.extra_docs.url}}" download>here.</a></p>
        <div class="row mt-2">
       {% for stats in event_stats  %}
           <button class="btn btn-lg btn-outline-primary col-md-3 offset-1">Registrations:{{stats.total_participants}}</button>
@@ -43,7 +45,7 @@
           </div>
       </div>
     </div>
-    <div class="col-lg-4 sidebar pl-lg-5 ftco-animate">
+    <div class="col-lg-4 sidebar pl-lg-5 ftco-animate mt-3 md:mt-0">
 				<div class="sidebar-box ftco-animate">
 					<div class="categories">
 						<h3>Services</h3>

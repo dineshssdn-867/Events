@@ -4,6 +4,8 @@ from django.dispatch import receiver
 from users.models import CustomUser
 from django_quill.fields import QuillField
 from clubs.models import ClubProfile
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+
 
 
 class Event(models.Model):
@@ -19,7 +21,7 @@ class Event(models.Model):
     participants = models.ManyToManyField(CustomUser, default="none", blank=True, related_name="participants")
     proposal = QuillField(blank=True, default=None, null=True)
     is_accepted = models.BooleanField(default=False)
-    extra_docs = models.FileField(default=None, blank=True, null=True)
+    extra_docs = models.FileField(upload_to="event_docs/", default=None, blank=True, null=True, storage=RawMediaCloudinaryStorage())
 
     def __str__(self):
         return self.event_title

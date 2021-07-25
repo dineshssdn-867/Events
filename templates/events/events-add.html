@@ -22,7 +22,7 @@
 						<div class="row no-gutters">
 							<div class="col-md-7">
 								<div class="contact-wrap w-100 p-md-5 p-4">
-									<h3 class="mb-4">Add a New Event Proposal</h3>{% if request.user.is_club_member  %}
+									<h3 class="mb-4">Add a New Event Proposal</h3>{% if request.user.is_club_member and request.user.is_allowed  %}
 									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
 										{% csrf_token %}
 										<div class="row">
@@ -74,6 +74,12 @@
 												<div class="form-group">
 													<label class="label" for="Description">Proposal</label>
 													<div class="bg-light"> {{form.media}} {{ form.proposal }} </div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="extra_docs">Extra Document</label>
+													<input type="file" name="extra_docs" class="form-control" id="extra_docs" placeholder="Event Banner" required>
 												</div>
 											</div>
 											<div class="col-md-12">

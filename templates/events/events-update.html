@@ -22,7 +22,7 @@
 						<div class="row no-gutters">
 							<div class="col-md-7">
 								<div class="contact-wrap w-150 p-md-5 p-4">
-									<h3 class="mb-4">Update Event Proposal</h3>{% if request.user.is_club_member  %}
+									<h3 class="mb-4">Update Event Proposal</h3>{% if request.user.is_club_member and request.user.is_allowed  %}
 									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
 										{% csrf_token %}
 										<div class="row">
@@ -74,6 +74,12 @@
 												<div class="form-group">
 													<label class="label" for="event_banner">Event Banner</label>
 													<div class="form-control h-25">{{form.event_banner}}</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="extra_docs">Event Banner</label>
+													<div class="form-control h-25">{{form.extra_docs}}</div>
 												</div>
 											</div>
 											<div class="col-md-12">

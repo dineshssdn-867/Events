@@ -22,7 +22,7 @@
 						<div class="row no-gutters">
 							<div class="col-md-7">
 								<div class="contact-wrap w-100 p-md-5 p-4">
-									<h3 class="mb-4">Delete a Event</h3>{% if request.user.is_club_member  %}
+									<h3 class="mb-4">Delete a Event</h3>{% if request.user.is_club_member and request.user.is_allowed  %}
 									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
 										{% csrf_token %}
 										<div class="row">

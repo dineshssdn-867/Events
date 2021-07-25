@@ -23,7 +23,7 @@ class UpdateEventForm(forms.ModelForm):
         model = Event
         fields = ['event_title', 'time', 'date', 'event_poster', 'event_banner', 'description', 'proposal', 'extra_docs']
         widget = {
-                  'event_poster': forms.ImageField(), 'event_banner':  forms.ImageField()
+                  'event_poster': forms.ImageField(), 'event_banner':  forms.ImageField(), 'extra_docs': models.FileField()
                   }
 
 
