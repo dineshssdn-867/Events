@@ -1,5 +1,6 @@
 {% load static %}
 {% load pwa %}
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +91,7 @@
 				<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
 					<h2 class="footer-heading">Latest News</h2>
 					{% blogs as blogs %}
-					{% for blog in blogs %}
+					{% for blog in blogs|slice:"2" %}
 					<div class="block-21 mb-4 d-flex">
 						<a class="img mr-4 rounded" style="background-image: url({{blog.blog_poster.url}});"></a>
 						<div class="text">
@@ -139,9 +140,6 @@
 		<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 		<script src="{% static 'js/scrollax.min.js' %}"></script>
 		<script src="{% static 'js/main.js' %}"></script>
-<<<<<<< HEAD
 		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script>
-=======
->>>>>>> 426064d4e85a488cf455ddb86d149eec51098cc0
 	</body>
 	</html>

@@ -17,13 +17,13 @@ from .forms import *
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpcomingEventView(ListView):
     template_name = 'events/events-upcoming.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(UpcomingEventView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.filter(date__gt=date.today()).filter(is_accepted=True)
@@ -32,13 +32,13 @@ class UpcomingEventView(ListView):
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class PastEventView(ListView):
     template_name = 'events/events-past.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(PastEventView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.filter(date__lt=date.today()).filter(is_accepted=True)
@@ -48,13 +48,13 @@ class PastEventView(ListView):
 @method_decorator(login_required(login_url='/users/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class ClubsEventView(ListView):
     template_name = 'events/events-club.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(ClubsEventView, self).get_context_data(**kwargs)
         profile = ClubProfile.objects.get(user=self.request.user)
@@ -64,13 +64,13 @@ class ClubsEventView(ListView):
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class TodayEventView(ListView):
     template_name = 'events/events-today.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(TodayEventView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.filter(date=date.today()).filter(is_accepted=True)
@@ -80,6 +80,7 @@ class TodayEventView(ListView):
 @method_decorator(login_required(login_url='/users/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class CreateEventView(SuccessMessageMixin, CreateView):
     model = Event
     template_name = 'events/events-add.html'
@@ -87,7 +88,6 @@ class CreateEventView(SuccessMessageMixin, CreateView):
     success_message = "Event has been posted"
     form_class = CreateEvent
 
-    @lru_cache(maxsize=None)
     def form_valid(self, form):
         form = CreateEvent(self.request.POST, self.request.FILES)
         event = form.save(commit=False)
@@ -135,6 +135,7 @@ class SingleEventView(UpdateView, SuccessMessageMixin):
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpdateEventView(SuccessMessageMixin, UpdateView, ListView):
     model = Event
     template_name = 'events/events-update.html'
@@ -146,7 +147,6 @@ class UpdateEventView(SuccessMessageMixin, UpdateView, ListView):
         form.instance.user = ClubProfile.objects.filter(user=self.request.user)[0]
         return super(UpdateEventView, self).form_valid(form)
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(UpdateEventView, self).get_context_data()
         if self.object.time.hour < 10:
@@ -184,6 +184,7 @@ class UpdateEventView(SuccessMessageMixin, UpdateView, ListView):
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class DeleteEventView(SuccessMessageMixin, DeleteView):
     model = Event
     success_url = '/'
@@ -220,14 +221,14 @@ def CreateRatingView(request, *args, **kwargs):
 
 
 
-#@method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-#@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class CalenderEventView(ListView):
     template_name = 'events/events-calender.html'
     model = Event
     context_object_name = 'events'
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(CalenderEventView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.all()

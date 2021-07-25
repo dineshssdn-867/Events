@@ -19,6 +19,7 @@ class Event(models.Model):
     participants = models.ManyToManyField(CustomUser, default="none", blank=True, related_name="participants")
     proposal = QuillField(blank=True, default=None, null=True)
     is_accepted = models.BooleanField(default=False)
+    extra_docs = models.FileField(default=None, blank=True, null=True)
 
     def __str__(self):
         return self.event_title

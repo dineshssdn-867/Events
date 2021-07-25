@@ -5,10 +5,12 @@ from django.views.decorators.vary import vary_on_headers
 from django.views.generic import TemplateView
 from contactus.models import Contact
 from django.core.mail import send_mail
+from functools import lru_cache
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch') 
 class ContactUs(TemplateView):
     template_name = "contactus/contactus.html"
 

@@ -12,12 +12,12 @@ from happy_blog.models import happy_blog
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class HomeView(ListView):
     template_name = 'main/index.html'
     model = happy_blog
     context_object_name = 'happy_blogs'
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['happy_blog'] = happy_blog.objects.using('blogs').all()

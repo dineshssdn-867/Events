@@ -14,6 +14,7 @@ from events.models import Event
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="cache2"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class ClubsView(ListView):
     template_name = 'clubs/clubs.html'
     model = ClubProfile
@@ -25,8 +26,7 @@ class ClubsView(ListView):
         context['clubs'] = ClubProfile.objects.filter(user__is_allowed=True)
         return context
 
-@method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * 1, cache="cache2"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class SingleClubView(UpdateView, SuccessMessageMixin):
     template_name = 'clubs/club-single.html'
     model = ClubProfile
@@ -34,7 +34,6 @@ class SingleClubView(UpdateView, SuccessMessageMixin):
     form_class = ApplyMemberForm
     success_message = "You are member of this club"
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(SingleClubView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.filter(user=self.object.pk)
@@ -54,6 +53,7 @@ class SingleClubView(UpdateView, SuccessMessageMixin):
 @method_decorator(login_required(login_url='/users/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * 1, cache="cache2"), name='dispatch')
+@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpdateClubView(SuccessMessageMixin, UpdateView):
     model = ClubProfile
     template_name = 'clubs/club-update.html'

@@ -27,11 +27,8 @@
      </div>
    </div>
 </section>
-
 <div id='calendar'></div>
-{% for event in events %}
-<!-- {{event.event_title}} -->
-{% endfor %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -45,14 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       events: [
-      /*{
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2021-07-28'
-      },*/
+      {% for event in events %}
+      {
+        title: '{{event.event_title}}',
+        url: 'https://ds-ja-eventa.herokuapp.com/events/event-single/{{event.id}}',
+        start: '{{ event.date|date:'Y-m-d' }}'
+      },
+      {% endfor %}
       ]
     });
-  
+    
     calendar.render();
   });
 </script>
