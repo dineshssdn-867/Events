@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+		<section class="hero-wrap js-fullheight">
+		<div class="home-slider js-fullheight owl-carousel">
+			<div class="slider-item js-fullheight" style="background-image:url('https://www.meetinzagreb.hr/documents/PlazaEventCentar-Zagrebacki_festival.jpg');">
+				<div class="overlay-1"></div><div class="overlay-2"></div><div class="overlay-3"></div><div class="overlay-4"></div>
+				<div class="container">
+					<div class="row no-gutters slider-text js-fullheight align-items-center">
+						<div class="col-md-10 col-lg-7 ftco-animate">
+							<div class="text w-100">
+								<h2>Join us to manage events with ease</h2>
+								<h1 class="mb-3">An exceptional experience every time</h1>
+								<div class="d-flex meta">
+									<div class=""><p class="mb-0"><a href="{% url 'events:upcoming_events' %}" class="btn btn-secondary py-3 px-2 px-md-4">Have a look at existing events</a></p></div>
+									<a href="https://www.youtube.com/watch?v=iLs8XlobvDY" class="d-flex align-items-center button-link">
+										<div class="button-video d-flex align-items-center justify-content-center">
+											<span class="fa fa-play"></span>
+										</div>
+										<span>Watch our video</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="slider-item js-fullheight" style="background-image:url('https://eventmasters.eu/uploads/2020/04/bosch-1800x1200.jpg');">
+				<div class="overlay-1"></div><div class="overlay-2"></div><div class="overlay-3"></div><div class="overlay-4"></div>
+				<div class="container">
+					<div class="row no-gutters slider-text js-fullheight align-items-center">
+						<div class="col-md-10 col-lg-7 ftco-animate">
+							<div class="text w-100">
+								<h2>Events with elegance</h2>
+								<h1 class="mb-3">We create you celebrate</h1>
+								<div class="d-flex meta">
+									<div class=""><p class="mb-0"><a href="{% url 'events:upcoming_events' %}" class="btn btn-secondary py-3 px-2 px-md-4">Have a look at existing events</a></p></div>
+									<a href="https://www.youtube.com/watch?v=iLs8XlobvDY" class="d-flex align-items-center button-link">
+										<div class="button-video d-flex align-items-center justify-content-center">
+											<span class="fa fa-play"></span>
+										</div>
+										<span>Watch our video</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="slider-item js-fullheight" style="background-image:url('https://univate.nl/wp-content/uploads/2020/04/Virtual-Event-Studio-PF-00006.jpg');">
+				<div class="overlay-1"></div><div class="overlay-2"></div><div class="overlay-3"></div><div class="overlay-4"></div>
+				<div class="container">
+					<div class="row no-gutters slider-text js-fullheight align-items-center">
+						<div class="col-md-10 col-lg-7 ftco-animate">
+							<div class="text w-100">
+								<h2>At their best and at your service</h2>
+								<h1 class="mb-3">Life is an event make it Memorable</h1>
+								<div class="d-flex meta">
+									<div class=""><p class="mb-0"><a href="{% url 'events:upcoming_events' %}" class="btn btn-secondary py-3 px-2 px-md-4">Have a look at existing events</a></p></div>
+									<a href="https://www.youtube.com/watch?v=iLs8XlobvDY" class="d-flex align-items-center button-link">
+										<div class="button-video d-flex align-items-center justify-content-center">
+											<span class="fa fa-play"></span>
+										</div>
+										<span>Watch our video</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 order-md-last d-flex align-items-stretch">
+					<div class="donation-wrap">
+						<div class="total-donate d-flex align-items-center">
+							<span class="fa flaticon-cleaning"></span>
+							<h3 class="text-white">Join our Newsletter Services</h3>
+						</div>
+						<form action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="appointment subscribe_form relative">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="name">Full Name</label>
+										<div class="input-wrap">
+											<div class="icon"><span class="fa fa-user"></span></div>
+											<input type="text" class="form-control" placeholder="">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="name">Email Address</label>
+										<div class="input-wrap">
+											<div class="icon"><span class="fa fa-paper-plane"></span></div>
+											<input type="email" class="form-control" placeholder="">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="submit" value="Be a user" class="btn btn-secondary py-3 px-4">
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-7 wrap-about py-5">
+					<div class="heading-section pr-md-5 pt-md-5">
+						<span class="subheading">Welcome to Eventa</span>
+						<h2 class="mb-4">Manage Events with a ease</h2>
+						<p>Eventa is the application of project management to the creation and development of small and/or large-scale personal or corporate events such as festivals, conferences, ceremonies, weddings, formal parties, concerts, or conventions.</p>
+					</div>
+					<div class="row my-md-5">
+						<div class="col-md-6 d-flex counter-wrap">
+							<div class="block-18 d-flex">
+								<div class="icon d-flex align-items-center justify-content-center">
+									<span class="flaticon-volunteer"></span>
+								</div>
+								<div class="desc">
+									<div class="text">
+										<strong class="number" data-number="{{clubprofile}}">0</strong>
+									</div>
+									<div class="text">
+										<span>Clubs</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 d-flex counter-wrap">
+							<div class="block-18 d-flex">
+								<div class="icon d-flex align-items-center justify-content-center">
+									<span class="flaticon-piggy-bank"></span>
+								</div>
+								<div class="desc">
+									<div class="text">
+										<strong class="number" data-number="{{events}}">0</strong>
+									</div>
+									<div class="text">
+										<span>Events Managed</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section ftco-no-pt ftco-no-pb">
+		<div class="container">
+			<div class="row no-gutters">
+				<div class="col-md-3 d-flex align-items-stretch">
+					<div class="services">
+						<div class="text text-center bg-secondary">
+							<h3>Manage <br>events</h3>
+							<p>Sit back while we create the experience of a lifetime. Handling the stress so your event is a success</p>
+						</div>
+						<div class="img border-2" style="background-image: url('https://content.jdmagicbox.com/comp/bangalore/p9/080pxx80.xx80.191004092519.t9p9/catalogue/kreation-event-management-chikkalsandra-bangalore-party-decorators-t73wnwgdaj.jpg?clr=#5f1207?fit=around%7C270%3A130&crop=270%3A130%3B%2A%2C%2A	');">
+							<div class="icon d-flex align-items-center justify-content-center">
+								<span class="flaticon-volunteer"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex align-items-stretch">
+					<div class="services">
+						<div class="text text-center bg-tertiary">
+							<h3>Register <br>your club</h3>
+							<p>Every detail matters Precise coordination, extraordinary results Our passion is your perfect event</p>
+						</div>
+						<div class="img border-3" style="background-image: url('https://i.ytimg.com/vi/lKkezkmnAAM/maxresdefault.jpg');">
+							<div class="icon d-flex align-items-center justify-content-center">
+								<span class="flaticon-piggy-bank"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex align-items-stretch">
+					<div class="services">
+						<div class="text text-center bg-primary">
+							<h3>Write a <br>Blog</h3>
+							<p>Blogs gives you opportunity to talk about your work or expertise.It makes you socially connected</p>
+						</div>
+						<div class="img border-1" style="background-image: url('https://neilpatel.com/wp-content/uploads/2018/10/blog.jpg');">
+							<div class="icon d-flex align-items-center justify-content-center">
+								<span class="flaticon-donation"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex align-items-stretch">
+					<div class="services">
+						<div class="text text-center bg-quarternary">
+							<h3>Write <br>a feedback blog</h3>
+							<p>We value our customer views to shape our business. Listening to clients voice helps to create stronger relations.</p>
+						</div>
+						<div class="img border-4" style="background-image: url('https://www.ieslink.com/wp-content/uploads/2017/11/feedback.jpg');">
+							<div class="icon d-flex align-items-center justify-content-center">
+								<span class="flaticon-ecological"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section testimony-section mt-5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
+					<span class="subheading">Testimony</span>
+					<h2>Happy Clients &amp; Feedbacks</h2>
+				</div>
+			</div>
+			<div class="row ftco-animate">
+				<div class="col-md-12">
+					<div class="carousel-testimony owl-carousel">
+						{% for blog in happy_blog %}
+						<div class="item">
+							<div class="testimony-wrap d-flex">
+								<div class="user-img" style="background-image: url({{blog.image.url}})">
+								</div>
+								<div class="text pl-4">
+									<span class="quote d-flex align-items-center justify-content-center">
+										<i class="fa fa-quote-left"></i>
+									</span>
+									<p class="rate">
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+									</p>
+									<p>{{blog.tweet.html|safe}}</p>
+									<p class="name">{{blog.name}}</p>
+									<span class="position">{{blog.job_type}}</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5 mb-3">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<span class="subheading">Our Blog</span>
+					<h2>Latest news from our blog</h2>
+				</div>
+			</div>
+
+			<div class="row d-flex">
+				{% for blog in blogs %}
+				<div class="col-md-6 col-lg-3 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="{% url 'blogs:single_blog' pk=blog.id %}" class="block-20" style="background-image: url({{blog.blog_poster.url}});">
+						</a>
+						<div class="text p-4">
+							<div class="meta mb-2">
+								<div><a href="#">{{blog.created}}</a></div>
+								<div><a href="#">{{blog.user.username}}</a></div>
+                                <div><a href="#"><i class="fas fa-heart"> {{blog.total_likes}}</i></a></div>
+							</div>
+							<h3 class="heading"><a href="{% url 'blogs:single_blog' pk=blog.id %}">{{blog.blog_title}}</a></h3>
+							<p>{{blog.description.html|safe|truncatechars:75}}</p>
+							<p><a href="{% url 'blogs:single_blog' pk=blog.id %}" class="btn btn-secondary">Read more</a></p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+
+	<section class="ftco-section ftco-no-pt">
+		<div class="container">
+			<div class="row justify-content-center pb-5 mb-3">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<span class="subheading">Clubs</span>
+					<h2>Our Top Clubs</h2>
+				</div>
+			</div>
+			<div class="row">
+				{% for clubprofile in clubprofiles %}
+				<div class="col-md-6 col-lg-3">
+					<div class="volunteer">
+						<div class="img" style="background-image: url('{{clubprofile.logo.url}}');"></div>
+						<div class="text text-1">
+							<h3>{{clubprofile.club_name}}</h3>
+							<p class="text-white">{{clubprofile.moto.html|safe|truncatechars:75}}</p>
+							 <p><a href="{% url 'clubs:single_club' pk=clubprofile.id %}" class="btn btn-secondary">Read more</a></p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+{% endblock %}

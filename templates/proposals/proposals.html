@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('https://www.theme-junkie.com/wp-content/uploads/event-proposal-template-3.jpeg');background-position: center;" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+       <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Proposals <i class="ion-ios-arrow-forward"></i></span></p>
+       <h1 class="mb-0 bread">Proposals</h1>
+     </div>
+   </div>
+ </div>
+</section>
+
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+        {% for event in events %}
+      <div class="col-md-12 col-lg-3 d-flex ftco-animate">
+        <div class="blog-entry align-self-stretch">
+          <a href="{% url 'proposals:single_proposal' pk=event.id %}" class="block-20" style="background-image: url({{event.event_poster.url}}); display: block; margin: 0 auto;"></a>
+          <div class="text p-4">
+           <div class="meta mb-2">
+            <div><a href="#">{{event.date}}</a></div>
+            <div><a href="#">{{event.time}}</a></div>
+          </div>
+          <h3 class="heading"><a href="{% url 'proposals:single_proposal' pk=event.id %}">{{event.event_title}}</a></h3>
+          <p>{{event.description.html|safe|truncatechars:75}}</p>
+          <p>{{event.proposal.html|safe|truncatechars:75}}</p>
+          <p><a href="{% url 'proposals:single_proposal' pk=event.id %}" class="btn btn-secondary">Read about the proposal</a></p>
+        </div>
+      </div>
+    </div>
+        {% endfor %}
+  </div>
+      		<div class="row mt-5"> {% if is_paginated %}
+			<div class="col text-center">
+				<div class="block-27">
+					<ul> {% if page_obj.has_previous %}
+						<li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li> {% else %}
+						<li class="disabled"><span>&lt;</span></li> {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
+						<li class="active"><span>{{i}}</span></li> {% else %}
+						<li><a href="?page={{ i }}">{{i}}</a></li> {% endif %} {% endfor %} {% if page_obj.has_next %}
+						<li><a href="?page={{ page_obj.next_page_number }}">></a></li> {% else %}
+						<li class="disabled"><span>&gt;</span></li> {% endif %} </ul>
+				</div>
+			</div> {% endif %} </div>
+      	</div>
+</section>
+{% endblock %}

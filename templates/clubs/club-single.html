@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('https://www.evaair.com/Images/ensg/the-club-logo_tcm68-68807.jpg');background-position: center;" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end">
+			<div class="col-md-9 ftco-animate pb-5">
+				<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="#">Clubs <i class="ion-ios-arrow-forward"></i></a></span> <span>Club Single <i class="ion-ios-arrow-forward"></i></span></p>
+				<h1 class="mb-0 bread">Club Details</h1> </div>
+		</div>
+	</div>
+</section>
+<section class="ftco-section ftco-degree-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 ftco-animate">
+				<p> <img src="{{club.club_banner.url}}" alt="{{club.club_name}}" class="img-fluid"> </p>
+				<h2 class="mb-3">{{club.club_name}}</h2>
+				<p>{{club.moto.html|safe}}</p>
+				<div class="row mt-2"> {% if club.social_insta %}
+					<div><a href="{{club.social_insta}}"><i class="fab fa-2x fa-instagram"></i></a></div> {% endif %} {% if club.social_face %}
+					<div><a href="{{club.social_face}}"><i class="fab fa-2x fa-facebook"></i></a></div> {% endif %} {% if club.social_twitter %}
+					<div><a href="{{club.social_twitter}}"><i class="fab fa-2x fa-twitter"></a></div> {% endif %}
+                </div>
+                <div class="row mt-3"> {% if request.user == club.user %} <a href="{% url 'clubs:update_club' pk=club.id %}" class="btn btn-primary mr-2">Update Club Details</a> {% endif %}
+						{% if user.is_authenticated %}
+						<form method="post"> {% csrf_token %} {% if registered %}
+							<input type="submit" value="You are a member" disabled class="btn btn-outline-primary"> {% else %}
+							<input type="submit" value="Be a Member" class="btn btn-outline-primary"> {% endif %} 
+						</form>
+						{% endif %}
+					</div>
+				</div>
+			<div class="col-lg-4 sidebar pl-lg-5 ftco-animate">
+				<div class="sidebar-box ftco-animate">
+					<div class="categories">
+						<h3>Services</h3>
+                        <li><a href="{% url 'events:upcoming_events' %}">Events <span class="fa fa-chevron-right"></span></a></li>
+                        <li><a href="{% url 'blogs:blogs' %}">Blogs <span class="fa fa-chevron-right"></span></a></li>
+                        <li><a href="{% url 'clubs:clubs' %}">Clubs <span class="fa fa-chevron-right"></span></a></li>
+					</div>
+				</div>
+				<div class="sidebar-box ftco-animate">
+					<h3>Recent Events by {{club.club_name}}</h3> {% for event in events|slice:"3" %}
+					<div class="block-21 mb-4 d-flex">
+						<a class="blog-img mr-4" style="background-image: url({{event.event_poster.url}});"></a>
+						<div class="text">
+							<h3 class="heading"><a href="#">{{event.event_title}}</a></h3>
+							<div class="meta">
+								<div><a href="#"><span class="fa fa-calendar"></span> {{event.date}}</a></div>
+								<div><a href="#"><span class="fa fa-user"></span> {{club.club_name}}</a></div>
+								<p>{{event.description.html|safe|truncatechars:75}}</p>
+								<p><a href="{% url 'events:single_event' pk=event.id %}" class="btn btn-secondary">Read more</a></p>
+							</div>
+						</div>
+					</div> {% endfor %}
+					<div class="sidebar-box ftco-animate">
+                        <h3>Our work description</h3>
+                        <p>Event management is the application of project management to the creation and development of small and/or large-scale personal or corporate events such as festivals, conferences, ceremonies, weddings, formal parties, concerts, or conventions.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section> {% endblock %}

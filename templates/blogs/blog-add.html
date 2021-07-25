@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('https://imcbusiness.com/public/page/slider-images/blog-v1.jpg');" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end">
+				<div class="col-md-9 ftco-animate pb-5">
+					<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Add Blog <i class="ion-ios-arrow-forward"></i></span></p>
+					<h1 class="mb-0 bread">Add Blog</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row no-gutters">
+							<div class="col-md-7">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+									<h3 class="mb-4">Add a New Blog</h3>
+									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row">
+											{% if form.errors %}
+											<div class="alert alert-danger alert-dismissible" role="aler">
+												<div id="form_errors"> {% for key,value in form.errors.items %} <span class="fieldWrapper">
+														 {{ key }} : {{ value }}
+													 </span> {% endfor %} </div>
+												<button type="button" class="close" data-dismiss="alert" aria-hidden="Close"> <span aria-hidden="true">&times</span> </button>
+											</div>
+											{% endif %}
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="blog_title">Blog Title</label>
+													<input type="text" class="form-control" name="blog_title" id="blog_title" placeholder="Blog Title">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="blog_poster">Blog Poster</label>
+													<input type="file" name="blog_poster" class="form-control" id="blog_poster" placeholder="Blog Poster" required>{{ event_poster.html_name }}
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="blog_banner">Blog Banner</label>
+													<input type="file" name="blog_banner" class="form-control" id="blog_banner" placeholder="Blog Banner" required>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="Description">Description</label>
+													<div class="bg-light"> {{form.media}} {{ form.description }} </div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Add Blog" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap w-100 p-5 img" style="background-image: url('https://res.cloudinary.com/dineshscloud/image/upload/v1626437579/job_portal/users/blog_toj8uj.jpg');">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

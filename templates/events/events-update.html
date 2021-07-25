@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('http://www.eventelephant.com/wp-content/uploads/2019/01/EventElephant.jpg');" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end">
+				<div class="col-md-9 ftco-animate pb-5">
+					<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Update a Proposal <i class="ion-ios-arrow-forward"></i></span></p>
+					<h1 class="mb-0 bread">Update Event Proposal</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row no-gutters">
+							<div class="col-md-7">
+								<div class="contact-wrap w-150 p-md-5 p-4">
+									<h3 class="mb-4">Update Event Proposal</h3>{% if request.user.is_club_member  %}
+									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row">
+											{% if form.errors %}
+											<div class="alert alert-danger alert-dismissible" role="aler">
+												<div id="form_errors"> {% for key,value in form.errors.items %} <span class="fieldWrapper">
+														 {{ key }} : {{ value }}
+													 </span> {% endfor %} </div>
+												<button type="button" class="close" data-dismiss="alert" aria-hidden="Close"> <span aria-hidden="true">&times</span> </button>
+											</div>
+											{% endif %}
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="event_title">Event Title</label>
+													<input type="text" class="form-control" value="{{form.event_title.value}}" name="event_title" id="event_title" placeholder="event_title">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label" for="time">Current Time</label>
+													<input type="time" class="form-control" value="{{hour}}:{{minutes}}" name="time" id="time" placeholder="time" required>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label" for="date">Current Date</label>
+													<input type="date" class="form-control" name="date" value="{{year}}-{{month}}-{{day}}" id="date" placeholder="Date" required>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="Description">Description</label>
+													<div class="bg-light"> {{form.media}} {{ form.description }} </div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="proposal">Proposal</label>
+													<div class="bg-light"> {{form.media}} {{ form.proposal }} </div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="event_poster">Event Poster</label>
+													<div class="form-control h-25">{{form.event_poster}}</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="event_banner">Event Banner</label>
+													<div class="form-control h-25">{{form.event_banner}}</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Update Event Proposal" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+									{% else %}
+									<div class="row">
+										<div class="col-md-12">
+											<label class="font-weight-bold text-white" for="Warning">You are not authorized to edit a event proposal.</label>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap w-150 p-5 img" style="background-image: url('https://images.squarespace-cdn.com/content/v1/5aadc54285ede1bd72181a3a/1521339647830-LKHTH62ZRY5TCGVCW81P/shutterstock_538256848.jpg?format=1500w');">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

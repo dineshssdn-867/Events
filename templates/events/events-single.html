@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<meta http-equiv="refresh" content="60">
+<div id="reserveModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg" role="content">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Rate Event</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="reserveModalForm" method="post" action="{% url 'events:rating_event' pk=event.id %}">
+                        {% csrf_token %}
+						<div class="form-group row">
+							<label class="col-12 col-md-3 col-form-label">Rating</label>
+							<div class="form-check col-12 col-md-9">
+								<input type="radio" id="rating" name="rating" value="1" onchange="document.getElementById('infoalert').style.display = 'none'">
+                                <label for="1" class="col-form-label">&nbsp;1</label>&nbsp;&nbsp;
+                                <input type="radio" id="rating1" name="rating" value="2" onchange="document.getElementById('infoalert').style.display = 'none'">
+                                <label for="2" class="col-form-label">&nbsp;2</label>&nbsp;&nbsp;
+                                <input type="radio" id="rating2" name="rating" value="3" onchange="document.getElementById('infoalert').style.display = 'none'">
+                                <label for="3" class="col-form-label">&nbsp;3</label>&nbsp;&nbsp;
+                                <input type="radio" id="rating3" name="rating" value="4" onchange="document.getElementById('infoalert').style.display = 'none'">
+                                <label for="4" class="col-form-label">&nbsp;4</label>&nbsp;&nbsp;
+                                <input type="radio" id="rating4" name="rating" value="5" onchange="document.getElementById('infoalert').style.display = 'none'">
+                                <label for="5" class="col-form-label">&nbsp;5</label>&nbsp;&nbsp;
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="offset-sm-3 col-md-10">
+								<button type="submit" class="btn btn-primary">Rate Event</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('https://i.ytimg.com/vi/9Gjs83Wz19M/maxresdefault.jpg');background-position: center;" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+       <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="blog.html">Event <i class="ion-ios-arrow-forward"></i></a></span> <span>Event Single <i class="ion-ios-arrow-forward"></i></span></p>
+       <h1 class="mb-0 bread">Event Details</h1>
+     </div>
+   </div>
+ </div>
+</section>
+
+<section class="ftco-section ftco-degree-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 ftco-animate">
+       <p>
+        <img src="{{event.event_banner.url}}" alt="" class="img-fluid">
+      </p>
+      <h2 class="mb-3">{{event.event_title}}</h2>
+      <p>{{event.description.html|safe}}</p>
+       <div class="row mt-2">
+      {% for stats in event_stats  %}
+          <button class="btn btn-lg btn-outline-primary ml-1 mr-1 md:col-md-3 md:ml-2 md:mr-0 md:offset-1">Registrations:{{stats.total_participants}}</button>
+          <button class="btn btn-lg btn-outline-success ml-1 mr-1 md:col-md-2 md:ml-2 md:mr-0 md:offset-1">Clicks:{{stats.clicks}}</button>
+          <button class="btn btn-lg btn-outline-danger ml-1 mr-1 md:col-md-2 md:ml-2 md:mr-0 md:offset-1">Rating: {{stats.rating}}</button>
+      {% endfor %}
+       </div>
+      <div class="row mt-3">
+          <div class="row mt-3">
+              {% if request.user == event.user.user %}
+                  <a href="{% url 'events:update_event' pk=event.id %}"  class="btn btn-primary mr-2 ml-4">Update Event</a>
+                  <a href="{% url 'events:delete_event' pk=event.id %}"  class="btn btn-danger">Delete Event</a>
+              {% endif %}
+          </div>
+      </div>
+      <div class="row mt-3">
+          <div class="row mt-3">
+            {% if not allow and user.is_authenticated %}
+            <form method="post"> {% csrf_token %}
+            {% if registered %}
+                <input type="submit" value="Registered" disabled class="btn btn-outline-primary ml-4 md:ml-0">
+            {% else %}
+                <input type="submit" value="Register" class="btn btn-outline-primary ml-4 md:ml-0">
+            {% endif %}
+            </form>
+            {% endif %}
+              {% if request.user != event.user and allow %}
+              <a type="button" class="btn btn-outline-primary ml-4 md:ml-0" id="reservetable" role="button">Rate Event</a>
+              {% endif %}
+          </div>
+       </div>
+    </div>
+    <div class="col-lg-4 sidebar pl-lg-5 ftco-animate mt-3 md:mt-0">
+      <div class="sidebar-box ftco-animate">
+        <div class="categories">
+          <h3>Services</h3>
+          <li><a href="{% url 'events:upcoming_events' %}">Events <span class="fa fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'blogs:blogs' %}">Blogs <span class="fa fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'clubs:clubs' %}">Clubs <span class="fa fa-chevron-right"></span></a></li>
+        </div>
+      </div>
+
+        <div class="sidebar-box ftco-animate">
+        <h3>Recent Blog</h3>
+        {% for blog in blogss|slice:"3" %}
+        <div class="block-21 mb-4 d-flex">
+          <a class="blog-img mr-4" style="background-image: url({{blog.blog_poster.url}});"></a>
+          <div class="text">
+            <h3 class="heading"><a href="#">{{blog.blog_title}}</a></h3>
+            <div class="meta">
+              <div><a href="#"><span class="fa fa-calendar"></span> {{blog.created}}</a></div>
+              <div><a href="#"><span class="fa fa-user"></span> {{blog.user.username}}</a></div>
+              <div><a href="#"><i class="fas fa-heart"> {{blog.total_likes}}</i></a></div>
+              <p>{{blog.description.html|safe|truncatechars:75}}</p>
+              <p><a href="{% url 'blogs:single_blog' pk=blog.id %}" class="btn btn-secondary">Read more</a></p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      <div class="sidebar-box ftco-animate">
+        <h3>Our work description</h3>
+        <p>Event management is the application of project management to the creation and development of small and/or large-scale personal or corporate events such as festivals, conferences, ceremonies, weddings, formal parties, concerts, or conventions.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</section>
+{% include 'js.html' %}
+{% endblock %}

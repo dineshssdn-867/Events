@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<section class="hero-wrap hero-wrap-2" style="background-image:  url('https://www.evaair.com/Images/ensg/the-club-logo_tcm68-68807.jpg');background-position: center;" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end">
+				<div class="col-md-9 ftco-animate pb-5">
+					<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Club details <i class="ion-ios-arrow-forward"></i></span></p>
+					<h1 class="mb-0 bread">Update club details</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row no-gutters">
+							<div class="col-md-7">
+								<div class="contact-wrap w-150 p-md-5 p-4">
+									<h3 class="mb-4">Update a Club</h3>{% if request.user.is_club_member  %}
+									<form method="post" id="contactForm" name="contactForm" action="#" class="contactForm" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row">
+											{% if form.errors %}
+											<div class="alert alert-danger alert-dismissible" role="aler">
+												<div id="form_errors"> {% for key,value in form.errors.items %} <span class="fieldWrapper">
+														 {{ key }} : {{ value }}
+													 </span> {% endfor %} </div>
+												<button type="button" class="close" data-dismiss="alert" aria-hidden="Close"> <span aria-hidden="true">&times</span> </button>
+											</div>
+											{% endif %}
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="club_name">Club Title</label>
+													<input type="text" class="form-control" value="{{form.club_name.value}}" name="club_name" id="club_name" placeholder="Club Name">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="moto">Moto</label>
+													<div class="bg-light"> {{form.media}} {{ form.moto }} </div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="logo">Logo</label>
+													<div class="form-control h-25">{{form.logo}}</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="Club Banner">Club Banner</label>
+													<div class="form-control h-25">{{form.logo}}</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="label" for="social_face">Facebook</label>
+													<input type="text" class="form-control" value={{form.social_face.value}} name="social_face" id="social_face" placeholder="Facebook" required>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="label" for="social_twitter">Twitter</label>
+													<input type="text" class="form-control" value={{form.social_twitter.value}} name="social_twitter" id="social_twitter" placeholder="Twitter" required>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="label" for="social_insta">Instagram</label>
+													<input type="text" class="form-control" value={{form.social_insta.value}} name="social_insta" id="social_insta" placeholder="time" required>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Update Club Details" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+									{% else %}
+									<div class="row">
+										<div class="col-md-12">
+											<label class="font-weight-bold text-white" for="Warning">You are not authorized to edit a club details.</label>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap w-150 p-5 img" style="background-image: url('https://images.squarespace-cdn.com/content/v1/5aadc54285ede1bd72181a3a/1521339647830-LKHTH62ZRY5TCGVCW81P/shutterstock_538256848.jpg?format=1500w');">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

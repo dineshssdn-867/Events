@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('https://www1.chester.ac.uk/sites/default/files/styles/hero/public/Events%20Management%20festival%20image.jpg?itok=eJ3k-5R6');background-position: center;" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end">
+      <div class="col-md-9 ftco-animate pb-5">
+       <p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'social_home:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About us <i class="ion-ios-arrow-forward"></i></span></p>
+       <h1 class="">About Us</h1>
+     </div>
+   </div>
+ </div>
+</section>
+
+<section class="ftco-section ftco-no-pt ftco-no-pb">
+ <div class="container">
+  <div class="row d-flex no-gutters">
+   <div class="col-md-6 d-flex order-md-last">
+    <div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-center mb-4 mb-sm-0" style="background-image:url('https://images.squarespace-cdn.com/content/v1/5aadc54285ede1bd72181a3a/1521339647830-LKHTH62ZRY5TCGVCW81P/shutterstock_538256848.jpg?format=1500w');">
+    </div>
+  </div>
+  <div class="col-md-6 pr-md-5 py-md-5">
+    <div class="heading-section pt-md-5 mb-4">
+     <span class="subheading">About us</span>
+     <h2 class="mb-2">Your vision. Our innovation. Event solutions.</h2>
+     <p>Event management is the coordinated effort behind planning, organizing, and executing various events or features. This includes weddings, corporate meetings, fundraisers, sporting events, fashion shows, and much more. Event management companies can help you organise a number of different special events that your organisation may be interested in hosting.</p>
+     <p><a href="{% url 'events:upcoming_events' %}" class="btn btn-secondary">Have a look at existing events</a></p>
+   </div>
+ </div>
+</div>
+</div>
+</section>
+
+	<section class="ftco-section testimony-section mb-5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
+					<span class="subheading">Testimony</span>
+					<h2>Happy Clients &amp; Feedbacks</h2>
+				</div>
+			</div>
+			<div class="row ftco-animate">
+				<div class="col-md-12">
+					<div class="carousel-testimony owl-carousel">
+						{% for blog in happy_blog %}
+						<div class="item">
+							<div class="testimony-wrap d-flex">
+								<div class="user-img" style="background-image: url({{blog.image.url}})">
+								</div>
+								<div class="text pl-4">
+									<span class="quote d-flex align-items-center justify-content-center">
+										<i class="fa fa-quote-left"></i>
+									</span>
+									<p class="rate">
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+										<span class="fa fa-star"></span>
+									</p>
+									<p>{{blog.tweet.html|safe}}</p>
+									<p class="name">{{blog.name}}</p>
+									<span class="position">{{blog.job_type}}</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+{% endblock %}
