@@ -1,4 +1,6 @@
 {% load static %}
+{% load static compress %}
+{% compress css %}
 <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}">
@@ -10,3 +12,4 @@
 <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+{% endcompress %}

@@ -16,14 +16,13 @@ from .forms import *
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache2"), name='dispatch')
 class ProposalView(ListView):
     template_name = 'proposals/proposals.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(ProposalView, self).get_context_data(**kwargs)
         context['events'] = Event.objects.filter(is_accepted=False)
@@ -32,14 +31,13 @@ class ProposalView(ListView):
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache2"), name='dispatch')
 class ProposalClubView(ListView):
     template_name = 'proposals/proposals-club.html'
     model = Event
     context_object_name = 'events'
     paginate_by = 5
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(ProposalClubView, self).get_context_data(**kwargs)
         profile = ClubProfile.objects.filter(user=self.request.user)
@@ -49,7 +47,7 @@ class ProposalClubView(ListView):
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache2"), name='dispatch')
 class SingleProposalView(UpdateView, SuccessMessageMixin):
     template_name = 'proposals/proposals-single.html'
     model = Event
@@ -58,12 +56,11 @@ class SingleProposalView(UpdateView, SuccessMessageMixin):
     form_class = AcceptEventForm
     success_message = "You accepted this event"
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(SingleProposalView, self).get_context_data(**kwargs)
         context['blogss'] = Blog.objects.all()
         return context
-
+    
     def form_valid(self, form):
         form.instance.is_accepted = True
         form.save()
@@ -73,11 +70,17 @@ class SingleProposalView(UpdateView, SuccessMessageMixin):
         )
         send_mass_mail(datatuple)
         receivers = []
-        recipients = CustomUser.objects.all().values('email')
+        recipients = ClubProfile.objects.get(pk=self.object.pk).members.all().values('email')
+        print(recipients)
         for recipient in recipients:
-            receivers.append(recipient['email'])
+             receivers.append(recipient['email'])
+        message = '''
+            Event Details:-
+            Event Title: ''' + str(self.object.event_title) +  '''
+            Event Date: ''' + str(self.object.date) + '''
+            Event Time: ''' + str(self.object.time)
         datatuple = (
-            ('Subject', str(form), 'dinesh.n@ahduni.edu.in', receivers),
+             ('Event announcement '+ str(self.object.event_title), message, 'dinesh.n@ahduni.edu.in', receivers),
         )
         send_mass_mail(datatuple)
         return super(SingleProposalView, self).form_valid(form)
@@ -85,6 +88,7 @@ class SingleProposalView(UpdateView, SuccessMessageMixin):
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache2"), name='dispatch')
 class DeleteProposalView(SuccessMessageMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):

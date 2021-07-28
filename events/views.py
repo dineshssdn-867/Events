@@ -4,7 +4,7 @@ from functools import lru_cache
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import F
+from django.db.models import F,Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -16,7 +16,7 @@ from .forms import *
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpcomingEventView(ListView):
     template_name = 'events/events-upcoming.html'
@@ -31,7 +31,7 @@ class UpcomingEventView(ListView):
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class PastEventView(ListView):
     template_name = 'events/events-past.html'
@@ -47,7 +47,7 @@ class PastEventView(ListView):
 
 @method_decorator(login_required(login_url='/users/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class ClubsEventView(ListView):
     template_name = 'events/events-club.html'
@@ -63,7 +63,7 @@ class ClubsEventView(ListView):
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class TodayEventView(ListView):
     template_name = 'events/events-today.html'
@@ -79,7 +79,7 @@ class TodayEventView(ListView):
 
 @method_decorator(login_required(login_url='/users/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class CreateEventView(SuccessMessageMixin, CreateView):
     model = Event
@@ -101,9 +101,8 @@ class SingleEventView(UpdateView, SuccessMessageMixin):
     model = Event
     context_object_name = 'event'
     form_class = ApplyEventForm
-    success_message = "You applied for this job"
+    success_message = "You applied for this event"
 
-    @lru_cache(maxsize=None)
     def get_context_data(self, **kwargs):
         context = super(SingleEventView, self).get_context_data(**kwargs)
         context['event_stats'] = EventStats.objects.filter(event=self.object.pk)
@@ -113,11 +112,12 @@ class SingleEventView(UpdateView, SuccessMessageMixin):
         else:
             context['allow'] = False
         context['blogss'] = Blog.objects.all()
-        for stats in context['event_stats']:
-            clicks = stats.clicks
-        clicks = clicks + 1
-        EventStats.objects.filter(event=self.object.pk).update(clicks=clicks)
+        EventStats.objects.filter(event=self.object.pk).update(clicks=F('clicks')+1)
         context['registered'] = Event.objects.get(pk=self.object.pk).participants.all().filter(id=self.request.user.id)
+        if self.request.user.is_authenticated:
+            context['not_rated']=True
+            if Rating.objects.filter(Q(event=self.object.pk) & Q(user=self.request.user)):
+                context['not_rated'] = False
         return context
 
     def form_valid(self, form):
@@ -134,7 +134,7 @@ class SingleEventView(UpdateView, SuccessMessageMixin):
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 @method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpdateEventView(SuccessMessageMixin, UpdateView, ListView):
     model = Event
@@ -183,8 +183,7 @@ class UpdateEventView(SuccessMessageMixin, UpdateView, ListView):
 
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 class DeleteEventView(SuccessMessageMixin, DeleteView):
     model = Event
     success_url = '/'
@@ -208,22 +207,26 @@ class DeleteEventView(SuccessMessageMixin, DeleteView):
 
 @login_required(login_url='/user/login')
 @vary_on_headers('User-Agent', 'Cookie')
-@cache_page(60 * .167, cache="special_cache")
+@cache_page(60 * .167, cache="cache1")
 def CreateRatingView(request, *args, **kwargs):
     rating = Rating()
     rating.event = Event.objects.get(pk=kwargs['pk'])
     rating.user = request.user
-    rating.rating = request.POST.get('rating')
-    rating.save()
-    EventStats.objects.filter(event=kwargs['pk']).update(
+    registered =  Event.objects.get(pk=kwargs['pk']).participants.all().filter(id=request.user.id)
+    current_time = datetime.datetime.now() - datetime.timedelta(days=1)
+    if datetime.datetime(rating.event.date.year, rating.event.date.month, rating.event.date.day) < current_time and registered:
+        rating.rating = request.POST.get('rating')
+        rating.save()
+        EventStats.objects.filter(event=kwargs['pk']).update(
         rating=(F('rating') + rating.rating) / 2)
-    return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect('/')
 
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="special_cache"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
 class CalenderEventView(ListView):
     template_name = 'events/events-calender.html'
     model = Event

@@ -12,8 +12,7 @@ from functools import lru_cache
 
 @method_decorator(login_required(login_url='/user/login'), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
 class HappyBlogView(CreateView):
     template_name = 'happy_blog/happy-blog.html'
     model = happy_blog

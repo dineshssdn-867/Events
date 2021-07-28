@@ -25,8 +25,10 @@
       <p>{{event.description.html|safe}}</p>
       <h2 class="mb-3">{{event.event_title}} Proposal</h2>
       <p>{{event.proposal.html|safe}}</p>
+      {% if event.extra_docs  %}
       <h2 class="mb-3">{{event.event_title}} extra documents</h2>
       <p>Please read more about the event in the documents.Please click <a href="{{event.extra_docs.url}}" download>here.</a></p>
+      {% endif %}
        <div class="row mt-2">
       {% for stats in event_stats  %}
           <button class="btn btn-lg btn-outline-primary col-md-3 offset-1">Registrations:{{stats.total_participants}}</button>

@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'pwa',
     'cloudinary',
     'cloudinary_storage',
+    'compressor',
+    'cachalot'
 ]
 
 
@@ -65,6 +67,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -206,10 +209,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -249,13 +248,6 @@ QUILL_CONFIGS = {
 
 }
 
-AWS_ACCESS_KEY_ID = config('AWSAccessKeyId')
-AWS_SECRET_ACCESS_KEY = config('AWSSecretKey')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-AWS_HOST_REGION = config('AWS_HOST_REGION')
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_DEFAULT_ACL = None
-
 
 CACHES = {
     'default': {
@@ -284,32 +276,48 @@ CACHES = {
         }
     },
     'special_cache': {
-        'BACKEND': 'django_bmemcached.memcached.BMemcached',
-        'TIMEOUT': None,
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
         'LOCATION': 'mc3.dev.ec2.memcachier.com:11211',
         'OPTIONS': {
+            'binary': True,
             'username': 'FE0DED',
             'password': 'FB842F95699C1375DC19A0FEA587E0BD',
+            'behaviors': {
+                'ketama': True,
+            }
         }
     }
 }
+
+CACHALOT_ENABLED=True
+CACHALOT_CACHE='special_cache'
+CACHALOT_CACHE_RANDOM=True
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'  # storing session using serializer
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # This is for storing sessions in cache
 SESSION_CACHE_ALIAS = 'default'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_HOST = config('DJANGO_STATIC_HOST')
+STATIC_URL = STATIC_HOST + '/static/'
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_HOST_REGION)
-
-AWS_LOCATION = 'static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder' # Django-Compressor
+]
+
+COMPRESS_STORAGE = 'compressor.storage.GzipCompressorFileStorage'
+COMPRESS_ENABLED = True
+# Must enable this to use with Whitenoise
+COMPRESS_OFFLINE = True
+
 
 MEDIA_URL = '/events/'
 
@@ -319,14 +327,15 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('api_secret'),
 }
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# whitenoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 PWA_APP_NAME = "Eventa"
 PWA_APP_DESCRIPTION = "Event management is the coordinated effort behind planning, organizing, and executing various events or features. This includes weddings, corporate meetings, fundraisers, sporting events, fashion shows, and much more. Event management companies can help you organise a number of different special events that your organisation may be interested in hosting."
-PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_BACKGROUND_COLOR = '#000000'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'any'
@@ -351,9 +360,10 @@ PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 PWA_APP_DEBUG_MODE = True
 
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())
-#del DATABASES['default']['OPTIONS']['sslmode']
+WHITENOISE_MAX_AGE = 31536000
+del DATABASES['default']['OPTIONS']['sslmode']

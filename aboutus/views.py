@@ -8,7 +8,7 @@ from happy_blog.models import *
 
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
-@method_decorator(cache_page(60 * .167, cache="cache1"), name='dispatch')
+@method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
 class AboutusView(ListView):
     template_name = 'aboutus/aboutus.html'
     model = happy_blog

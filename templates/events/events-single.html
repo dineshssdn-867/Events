@@ -88,9 +88,13 @@
             {% endif %}
             </form>
             {% endif %}
-              {% if request.user != event.user and allow %}
+            {% if request.user.is_authenticated %}
+              {% if request.user != event.user.user and allow and not_rated %}
+              {% if registered %}
               <a type="button" class="btn btn-outline-primary ml-4 md:ml-0" id="reservetable" role="button">Rate Event</a>
               {% endif %}
+              {% endif %}
+            {% endif %}  
           </div>
        </div>
     </div>

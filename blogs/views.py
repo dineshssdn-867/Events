@@ -13,7 +13,6 @@ from .forms import *
 
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class HomeView(ListView):
     template_name = 'blogs/blogs.html'
     model = Blog
@@ -29,7 +28,6 @@ class HomeView(ListView):
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class CreateBlogView(SuccessMessageMixin, CreateView):
     model = Blog
     template_name = 'blogs/blog-add.html'
@@ -44,7 +42,7 @@ class CreateBlogView(SuccessMessageMixin, CreateView):
         blog.save()
         return super(CreateBlogView, self).form_valid(form)
 
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
+
 class SingleBlogView(UpdateView, SuccessMessageMixin):
     template_name = 'blogs/blog-single.html'
     model = Blog
@@ -77,7 +75,6 @@ class SingleBlogView(UpdateView, SuccessMessageMixin):
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class UpdateBlogView(SuccessMessageMixin, UpdateView):
     model = Blog
     template_name = 'blogs/blog-update.html'
@@ -100,7 +97,6 @@ class UpdateBlogView(SuccessMessageMixin, UpdateView):
 @method_decorator(login_required(login_url='/user/login'), name="dispatch")
 @method_decorator(vary_on_headers('User-Agent', 'Cookie'), name='dispatch')
 @method_decorator(cache_page(60 * .167, cache="default"), name='dispatch')
-@method_decorator(lru_cache(maxsize=None), name='dispatch')
 class DeleteBlogView(SuccessMessageMixin, DeleteView):
     model = Blog
     success_url = '/'
