@@ -70,8 +70,7 @@ Make migrations and start the server
 
 ## Features🧾
 
-You can register as a user, tech-expert or recruiter
-
+You can register as a user, event organizer
 <details>
   <summary>For Event organizers</summary>
  
