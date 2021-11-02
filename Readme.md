@@ -6,7 +6,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -32,7 +32,11 @@ To run this project, you will need to add the following environment variables to
 
 - `AWS_CDN_URL` : Your static cdn url
 
-You can use smtp providers like gmail, sendgrid etc. Update the `EMAIL_HOST` in dim/settings.py accordingly.
+- `CACHE_USERNAME` : Operator of cache username
+
+- `CACHE_PASSWORD` : Password of cache service password
+
+You can use smtp providers like gmail, sendgrid etc. Update the `EMAIL_HOST` in events/settings.py accordingly.
 
 ## Run Locally🚀
 
@@ -45,7 +49,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd DIM
+  cd events
 ```
 
 Create Environement and install dependencies
